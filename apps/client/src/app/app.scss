@@ -1,0 +1,65 @@
+:host {
+  display: block;
+}
+
+.page-shell {
+  width: min(100% - 2rem, 960px);
+  margin: 0 auto;
+  padding: 2rem 0 4rem;
+}
+
+.intro {
+  margin-bottom: 1.5rem;
+}
+
+.intro h1 {
+  margin: 0.25rem 0 0.75rem;
+  font-size: clamp(1.75rem, 5vw, 2.75rem);
+}
+
+.eyebrow {
+  color: var(--ion-color-primary);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.query-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.query-form ion-button {
+  grid-column: 1 / -1;
+  margin-top: 0.5rem;
+}
+
+.result-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 2rem 0 0.25rem;
+}
+
+.result-reason {
+  margin-bottom: 0.25rem;
+}
+
+.decision-codes {
+  color: var(--ion-color-medium-shade);
+  font-family: monospace;
+  font-size: 0.8rem;
+  overflow-wrap: anywhere;
+}
+
+.pending-card,
+.selected-card {
+  margin-inline: 0;
+}
+
+@media (max-width: 640px) {
+  .query-form {
+    grid-template-columns: 1fr;
+  }
+}

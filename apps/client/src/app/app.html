@@ -1,0 +1,158 @@
+<ion-app>
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>Consulta CANBus</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <main class="page-shell">
+      <section class="intro">
+        <p class="eyebrow">Primera vertical · sin OCR</p>
+        <h1>Localiza esquemas CANBus candidatos</h1>
+        <p>
+          La consulta usa el catálogo documental. Encontrar un esquema no confirma por sí solo la
+          compatibilidad del vehículo.
+        </p>
+      </section>
+
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Datos del vehículo</ion-card-title>
+          <ion-card-subtitle>Fabricante, modelo y año son obligatorios.</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <form [formGroup]="form" (ngSubmit)="submit()" class="query-form">
+            <ion-input
+              label="Fabricante"
+              labelPlacement="stacked"
+              fill="outline"
+              formControlName="manufacturer"
+              placeholder="Ford"
+            />
+            <ion-input
+              label="Modelo o descriptor"
+              labelPlacement="stacked"
+              fill="outline"
+              formControlName="model"
+              placeholder="Puma K2"
+            />
+            <ion-input
+              label="Año de fabricación"
+              labelPlacement="stacked"
+              fill="outline"
+              type="number"
+              formControlName="year"
+            />
+            <ion-input label="VIN" labelPlacement="stacked" fill="outline" formControlName="vin" />
+            <ion-input
+              label="Propulsión"
+              labelPlacement="stacked"
+              fill="outline"
+              formControlName="propulsion"
+              placeholder="Hybrid Plugin"
+            />
+            <ion-input
+              label="Mercado"
+              labelPlacement="stacked"
+              fill="outline"
+              formControlName="market"
+              placeholder="LatAmMarket"
+            />
+            <ion-input
+              label="Sistema de acceso"
+              labelPlacement="stacked"
+              fill="outline"
+              formControlName="accessSystem"
+              placeholder="Regular-key"
+            />
+
+            <ion-button type="submit" expand="block" [disabled]="loading()">
+              @if (loading()) {
+                <ion-spinner name="crescent" />
+              } @else {
+                Consultar catálogo
+              }
+            </ion-button>
+          </form>
+        </ion-card-content>
+      </ion-card>
+
+      @if (errorMessage(); as error) {
+        <ion-card color="danger">
+          <ion-card-content>{{ error }}</ion-card-content>
+        </ion-card>
+      }
+
+      @if (result(); as searchResult) {
+        <section aria-live="polite">
+          <div class="result-heading">
+            <h2>Resultado</h2>
+            <ion-badge [color]="statusColor(searchResult.status)">
+              {{ statusLabel(searchResult.status) }}
+            </ion-badge>
+          </div>
+          <p class="result-reason">{{ searchResult.reason }}</p>
+          <p class="decision-codes">Códigos: {{ searchResult.decisionCodes.join(' · ') }}</p>
+
+          @if (searchResult.status === 'REVIEW_REQUIRED') {
+            <ion-card color="warning" class="pending-card">
+              <ion-card-content>
+                Resultado pendiente. Revisa los candidatos y completa los calificadores necesarios;
+                ningún documento ha sido seleccionado automáticamente.
+              </ion-card-content>
+            </ion-card>
+          }
+
+          @if (searchResult.selectedDocument; as selected) {
+            <ion-card color="success" class="selected-card">
+              <ion-card-header>
+                <ion-card-subtitle>Documento seleccionado</ion-card-subtitle>
+                <ion-card-title>{{ selected.originalFilename }}</ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
+                {{ selected.vehicleDescriptor }} · Desde {{ selected.startYear }}
+              </ion-card-content>
+            </ion-card>
+          }
+
+          @if (searchResult.candidates.length === 0) {
+            <ion-card>
+              <ion-card-content>No se encontraron documentos candidatos.</ion-card-content>
+            </ion-card>
+          } @else {
+            <ion-list>
+              @for (candidate of searchResult.candidates; track candidate.documentId) {
+                <ion-item>
+                  <ion-label>
+                    <h3>{{ candidate.originalFilename }}</h3>
+                    <p>
+                      {{ candidate.vehicleDescriptor }} · Desde
+                      {{ candidate.startYear ?? 'sin año' }}
+                    </p>
+                    @if (candidate.qualifiers.length > 0) {
+                      <p>
+                        Calificadores:
+                        @for (qualifier of candidate.qualifiers; track $index) {
+                          {{ qualifier.originalValue }}{{ !$last ? ', ' : '' }}
+                        }
+                      </p>
+                    }
+                    @for (warning of candidate.warnings; track warning.code) {
+                      <ion-note color="warning">
+                        {{ warning.code }}: {{ warning.message }}
+                      </ion-note>
+                    }
+                  </ion-label>
+                  @if (searchResult.selectedDocument?.documentId === candidate.documentId) {
+                    <ion-badge slot="end" color="success">Seleccionado</ion-badge>
+                  }
+                </ion-item>
+              }
+            </ion-list>
+          }
+        </section>
+      }
+    </main>
+  </ion-content>
+</ion-app>

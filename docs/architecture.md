@@ -64,8 +64,8 @@ flowchart TD
 proyecto/
 ├── AGENTS.md
 ├── apps/
-│   ├── backend/
-│   └── frontend/
+│   ├── api/
+│   └── client/
 ├── packages/
 │   └── contracts/
 ├── database/
@@ -79,11 +79,11 @@ proyecto/
 └── package.json
 ```
 
-### `apps/backend`
+### `apps/api`
 
 Backend NestJS. Contiene módulos funcionales, controladores, servicios, modelos Sequelize, configuración, pruebas y documentación OpenAPI.
 
-### `apps/frontend`
+### `apps/client`
 
 Aplicación Ionic/Angular. No implementa reglas autoritativas de compatibilidad; presenta información y solicita operaciones al backend.
 

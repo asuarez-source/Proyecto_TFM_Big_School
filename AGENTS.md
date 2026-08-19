@@ -52,7 +52,7 @@ No es obligatorio crear todos los módulos en el primer cambio. Implementarlos p
 
 ## Base de datos
 
-La fuente de verdad inicial es `database/technical_studies_unified.sql` y su documentación asociada.
+La fuente de verdad inicial es `database/schema/technical_studies_unified.sql` y su documentación asociada.
 
 Reglas obligatorias:
 
@@ -144,4 +144,3 @@ Un trabajo está terminado cuando:
 - OpenAPI refleja los endpoints modificados;
 - la documentación afectada está actualizada;
 - el diff ha sido revisado y no contiene secretos ni cambios accidentales.
-

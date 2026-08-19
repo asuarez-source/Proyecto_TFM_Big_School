@@ -1,0 +1,22 @@
+{
+  "name": "estudio-tecnico",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "apps/api",
+    "apps/client",
+    "packages/contracts"
+  ],
+  "scripts": {
+    "build": "npm run build --workspace @estudio-tecnico/contracts && npm run build --workspace @estudio-tecnico/api && npm run build --workspace @estudio-tecnico/client",
+    "format": "npm run format --workspace @estudio-tecnico/contracts && npm run format --workspace @estudio-tecnico/api && npm run format --workspace @estudio-tecnico/client",
+    "lint": "npm run build --workspace @estudio-tecnico/contracts && npm run lint --workspace @estudio-tecnico/api && npm run lint --workspace @estudio-tecnico/client",
+    "test": "npm run build --workspace @estudio-tecnico/contracts && npm run test --workspace @estudio-tecnico/api && npm run test --workspace @estudio-tecnico/client",
+    "test:e2e": "npm run build --workspace @estudio-tecnico/contracts && npm run test:e2e --workspace @estudio-tecnico/api",
+    "test:integration": "npm run build --workspace @estudio-tecnico/contracts && npm run test:integration --workspace @estudio-tecnico/api",
+    "typecheck": "npm run build --workspace @estudio-tecnico/contracts && npm run typecheck --workspace @estudio-tecnico/api && npm run typecheck --workspace @estudio-tecnico/client"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  }
+}

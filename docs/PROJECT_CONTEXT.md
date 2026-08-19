@@ -66,9 +66,8 @@ Esquema MySQL: `technical_studies`.
 
 Archivos iniciales:
 
-- `database/technical_studies_unified.sql`: instalación completa.
-- `database/migration_v2_canbus_ocr_cache.sql`: migración de la versión inicial.
-- `database/unified_database_report.md`: explicación y consultas.
+- `database/schema/technical_studies_unified.sql`: instalación completa.
+- `database/README.md`: instrucciones de instalación y evolución del esquema.
 
 ### Núcleo operativo
 
@@ -174,4 +173,3 @@ No incorporar inicialmente autenticación completa, OCR real, Redis, almacenamie
 - Commits pequeños y comprensibles.
 - Evidencia de que las reglas se verificaron contra la documentación y la base.
 - Registro de errores detectados en código generado y de cómo se corrigieron.
-

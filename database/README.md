@@ -68,6 +68,21 @@ database/
 - El SQL completo no se ejecuta automáticamente al iniciar la aplicación.
 - Las credenciales se proporcionan mediante variables de entorno y nunca se guardan en Git.
 
+## Usuario de solo lectura para la primera vertical
+
+La API inicial solo necesita `SELECT` sobre las siguientes tablas:
+
+```sql
+GRANT SELECT ON technical_studies.canbus_manufacturer TO 'technical_studies_reader'@'localhost';
+GRANT SELECT ON technical_studies.canbus_document TO 'technical_studies_reader'@'localhost';
+GRANT SELECT ON technical_studies.canbus_document_part TO 'technical_studies_reader'@'localhost';
+GRANT SELECT ON technical_studies.canbus_document_issue TO 'technical_studies_reader'@'localhost';
+```
+
+La creación del usuario y su contraseña se realiza desde una sesión administrativa local y no se incluye en archivos versionados.
+
+Las pruebas de integración utilizan otra base cuyo nombre termina en `_test`. El procedimiento reproducible se encuentra en `docs/procedures/development.md`; el inicializador rechaza nombres que no tengan ese sufijo antes de ejecutar el SQL completo.
+
 ## Nota sobre la antigua migración OCR
 
 La migración denominada `migration_v2_canbus_ocr_cache.sql` solo servía para actualizar una versión anterior del esquema. Sus cambios ya están incluidos en `technical_studies_unified.sql`.
@@ -77,4 +92,3 @@ Por tanto, esa migración:
 - no debe ejecutarse;
 - no debe incluirse en `database/migrations/`;
 - no necesita formar parte del repositorio de la aplicación que comienza desde el esquema actual.
-
